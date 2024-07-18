@@ -7,12 +7,8 @@ import (
 	"restaurant_mis/routes"
 
 	"github.com/gin-gonic/gin"
-	"go.mongodb.org/mongo-driver/mongo"
-	"restaurant_mis/middlewares"
-	"restaurant_mis/database"
+	// "restaurant_mis/middlewares"
 )
-var foodCollection *mongo.Collection=database.OpenCollection(database.Client,"food")
-var userCollection *mongo.Collection=database.OpenCollection(database.Client,"user")
 func main(){
  port:= os.Getenv("PORT")
  if port ==""{
@@ -29,7 +25,7 @@ func main(){
  router.Use(gin.Logger())
  routes.UserRoutes(router)
 //  intercept routes with auth
- router.Use(middlewares.Authentication())
+//  router.Use(middlewares.Authentication())
  routes.FoodRoutes(router)
  routes.MenuRoutes(router)
  routes.TableRoutes(router)
