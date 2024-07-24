@@ -24,9 +24,9 @@ func GetUser() gin.HandlerFunc {
 		userId := c.Param("user_id")
 		defer cancel()
 		objectId, _ := primitive.ObjectIDFromHex(userId)
-		err := userCollection.FindOne(ctx, bson.M{"id": objectId}).Decode(&user)
+		err := userCollection.FindOne(ctx, bson.M{"_id": objectId}).Decode(&user)
 		if err != nil {
-			c.JSON(http.StatusInternalServerError, dtos.Response{Status: http.StatusInternalServerError, Message: "error", Data: map[string]interface{}{"data": err.Error()}})
+			c.JSON(http.StatusNotFound, dtos.Response{Status: http.StatusNotFound, Message: "error", Data: map[string]interface{}{"data": err.Error()}})
 			return
 		}
 
@@ -77,12 +77,12 @@ func SignUp() gin.HandlerFunc {
 			Email:    user.Email,
 			Password: user.Password,
 		}
-		result, err := userCollection.InsertOne(ctx, newUser)
+		_, err := userCollection.InsertOne(ctx, newUser)
 		if err != nil {
 			c.JSON(http.StatusInternalServerError, dtos.Response{Status: http.StatusInternalServerError, Message: "error"})
 			return
 		}
-		c.JSON(http.StatusCreated, dtos.Response{Status: http.StatusCreated, Message: "user created successfully", Data: result})
+		c.JSON(http.StatusCreated, dtos.Response{Status: http.StatusCreated, Message: "user created successfully",})
 
 	}
 

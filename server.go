@@ -2,11 +2,13 @@ package main
 
 import (
 	"os"
-	// "restaurant_mis/models"
-	
+	// "restaurant_mis/models"	
 	"restaurant_mis/routes"
-
 	"github.com/gin-gonic/gin"
+// Import the generated docs package
+     "github.com/swaggo/gin-swagger" 
+    "github.com/swaggo/files"
+
 	// "restaurant_mis/middlewares"
 )
 func main(){
@@ -23,6 +25,7 @@ func main(){
 
 )
  router.Use(gin.Logger())
+ router.GET("/swagger/", ginSwagger.WrapHandler(swaggerFiles.Handler))
  routes.UserRoutes(router)
 //  intercept routes with auth
 //  router.Use(middlewares.Authentication())
