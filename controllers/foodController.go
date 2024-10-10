@@ -49,7 +49,7 @@ func GetFood() gin.HandlerFunc{
 
 		 err:=foodCollection.FindOne(c,bson.M{"food_id":foodId}).Decode(&food)
 		 if err!=nil {
-			ctx.JSON(http.StatusInternalServerError,gin.H{"error":"error occured while fetching food "})
+			ctx.JSON(http.StatusBadRequest,gin.H{"error":"food  not found"})
 			return
 		 }
 		 ctx.JSON(http.StatusOK,dtos.Response{Status: http.StatusOK,Data: food})
